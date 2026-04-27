@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>JAM Visuals – Cafe Survey</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0c0c0e;
+    --surface: #141416;
+    --border: #232328;
+    --accent: #f5c842;
+    --accent2: #e8874a;
+    --text: #f0ede8;
+    --muted: #7a7a85;
+    --selected-bg: #1e1c14;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 40px 20px 80px;
+  }
+
+  .wrapper {
+    width: 100%;
+    max-width: 580px;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 48px;
+  }
+  .logo-mark {
+    width: 36px; height: 36px;
+    background: var(--accent);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 14px;
+    color: #0c0c0e;
+    letter-spacing: -0.5px;
+  }
+  .brand {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--text);
+    letter-spacing: 0.5px;
+  }
+  .brand span { color: var(--muted); font-weight: 400; }
+
+  /* ── INTRO ── */
+  .intro { margin-bottom: 44px; }
+  .intro-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+  .intro h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(28px, 6vw, 38px);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 14px;
+  }
+  .intro p {
+    font-size: 15px;
+    line-height: 1.7;
+    color: #a8a8b3;
+    max-width: 480px;
+  }
+  .intro p strong { color: var(--text); font-weight: 500; }
+
+  /* ── PROGRESS ── */
+  .progress-bar {
+    height: 2px;
+    background: var(--border);
+    border-radius: 2px;
+    margin-bottom: 40px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 2px;
+    transition: width 0.4s cubic-bezier(.4,0,.2,1);
+    width: 0%;
+  }
+  .step-label {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── QUESTION BLOCKS ── */
+  .question-block {
+    display: none;
+    animation: fadeSlide 0.35s ease;
+  }
+  .question-block.active { display: block; }
+  @keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .q-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1.35;
+    margin-bottom: 6px;
+  }
+  .q-sub {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+
+  /* ── OPTIONS ── */
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .opt {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .opt:hover {
+    border-color: #3a3a46;
+    background: #191920;
+  }
+  .opt.selected {
+    border-color: var(--accent);
+    background: var(--selected-bg);
+  }
+  .opt-radio {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .opt.selected .opt-radio {
+    border-color: var(--accent);
+    background: var(--accent);
+  }
+  .opt.selected .opt-radio::after {
+    content: '';
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #0c0c0e;
+  }
+  .opt-text { font-size: 15px; font-weight: 400; }
+  .opt.selected .opt-text { color: var(--text); }
+
+  /* MULTI SELECT */
+  .opt .opt-check {
+    width: 18px; height: 18px;
+    border-radius: 5px;
+    border: 1.5px solid var(--border);
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .opt.selected .opt-check {
+    border-color: var(--accent);
+    background: var(--accent);
+  }
+  .opt.selected .opt-check::after {
+    content: '✓';
+    font-size: 11px;
+    color: #0c0c0e;
+    font-weight: 700;
+  }
+
+  /* ── TEXT INPUT ── */
+  .text-field {
+    width: 100%;
+    padding: 14px 18px;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s;
+    resize: none;
+  }
+  .text-field:focus { border-color: var(--accent); }
+  .text-field::placeholder { color: var(--muted); }
+
+  /* ── NAV BUTTONS ── */
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 32px;
+    gap: 12px;
+  }
+  .btn-back {
+    background: none;
+    border: 1.5px solid var(--border);
+    color: var(--muted);
+    padding: 12px 22px;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-back:hover { border-color: #3a3a46; color: var(--text); }
+  .btn-next {
+    background: var(--accent);
+    border: none;
+    color: #0c0c0e;
+    padding: 13px 28px;
+    border-radius: 10px;
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.3px;
+    transition: all 0.2s;
+    margin-left: auto;
+  }
+  .btn-next:hover { background: #ffd556; transform: translateY(-1px); }
+  .btn-next:disabled { opacity: 0.35; pointer-events: none; }
+
+  /* ── THANK YOU ── */
+  #thankyou {
+    display: none;
+    text-align: center;
+    padding: 60px 0;
+    animation: fadeSlide 0.5s ease;
+  }
+  .ty-icon {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: #1c1a0f;
+    border: 2px solid var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+    margin: 0 auto 24px;
+  }
+  #thankyou h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 30px;
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
+  #thankyou p { color: var(--muted); font-size: 15px; line-height: 1.7; max-width: 380px; margin: 0 auto; }
+
+  /* ── FOOTER ── */
+  .footer {
+    margin-top: 56px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer a { color: var(--accent); text-decoration: none; }
+
+  @media (max-width: 480px) {
+    body { padding: 28px 16px 60px; }
+    .intro h1 { font-size: 26px; }
+    .q-label { font-size: 18px; }
+    .btn-back, .btn-next { padding: 11px 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo-mark">J</div>
+    <div class="brand">JAM Visuals <span>/ Cafe Partner Survey</span></div>
+  </div>
+
+  <!-- INTRO -->
+  <div class="intro" id="intro-section">
+    <div class="intro-tag">Takes 2 minutes ☕</div>
+    <h1>Help us shape your<br/>loyalty experience.</h1>
+    <p>We're building a <strong>simple reward points system</strong> for cafes — and your feedback decides how it works. Just 6 quick questions.</p>
+  </div>
+
+  <!-- PROGRESS -->
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+    <span class="step-label" id="step-label">Question 1 of 6</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+
+  <!-- FORM -->
+  <div id="form-section">
+
+    <!-- Q1: Cafe Name -->
+    <div class="question-block active" data-q="1" data-type="text">
+      <div class="q-label">What's your cafe called?</div>
+      <div class="q-sub">Just the name is enough.</div>
+      <textarea class="text-field" rows="2" id="q1" placeholder="e.g. Brew & Co, The Bean Spot…"></textarea>
+    </div>
+
+    <!-- Q2: Current loyalty -->
+    <div class="question-block" data-q="2" data-type="single">
+      <div class="q-label">Do you currently have any loyalty or rewards system?</div>
+      <div class="q-sub">Stamp cards count too.</div>
+      <div class="options">
+        <div class="opt" onclick="selectOpt(this)">
+          <div class="opt-radio"></div>
+          <span class="opt-text">Yes — we have something running</span>
+        </div>
+        <div class="opt" onclick="selectOpt(this)">
+          <div class="opt-radio"></div>
+          <span class="opt-text">No — but we'd like one</span>
+        </div>
+        <div class="opt" onclick="selectOpt(this)">
+          <div class="opt-radio"></div>
+          <span class="opt-text">No — we haven't thought about it</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q3: Customers per day -->
+    <div class="question-block" data-q="3" data-type="single">
+      <div class="q-label">How many customers visit your cafe daily on average?</div>
+      <div class="q-sub">A rough estimate is fine.</div>
+      <div class="options">
+        <div class="opt" onclick="selectOpt(this)">
+          <div class="opt-radio"></div>
+          <span class="opt-text">Less than 50</span>
+        </div>
+        <div class="opt" onclick="selectOpt(this)">
+          <div class="opt-radio"></div>
+          <span class="opt-text">50 – 100</span>
+        </div>
+        <div class="opt" onclick="selectOpt(this)">
+          <div class="opt-radio"></div>
+          <span class="opt-text">100 – 200</span>
+        </div>
+        <div class="opt" onclick="selectOpt(this)">
+          <div class="opt-radio"></div>
+          <span class="opt-text">200+</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q4: What matters most -->
+    <div class="question-block" data-q="4" data-type="multi">
+      <div class="q-label">What features would matter most to you?</div>
+      <div class="q-sub">Select all that apply.</div>
+      <div class="options multi">
+        <div class="opt" onclick="selectMulti(this)">
+          <div class="opt-check"></div>
+          <span class="opt-text">Customers earn points per purchase</span>
+        </div>
+        <div class="opt" onclick="selectMulti(this)">
+          <div class="opt-check"></div>
+          <span class="opt-text">Free item or discount after X visits</span>
+        </div>
+        <div class="opt" onclick="selectMulti(this)">
+          <div class="opt-check"></div>
+          <span class="opt-text">Works across multiple cafes (shared points)</span>
+        </div>
+        <div class="opt" onclick="selectMulti(this)">
+          <div class="opt-check"></div>
+          <span class="opt-text">Simple dashboard to track regulars</span>
+        </div>
+        <div class="opt" onclick="selectMulti(this)">
+          <div class="opt-check"></div>
+          <span class="opt-text">Customer gets notifications / offers</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q5: Biggest challenge -->
+    <div class="question-block" data-q="5" data-type="single">
+      <div class="q-label">What's your biggest challenge with customer retention?</div>
+      <div class="q-sub">Pick the one that hits closest.</div>
+      <div class="options">
+        <div class="opt" onclick="selectOpt(this)">
+          <div class="opt-radio"></div>
+          <span class="opt-text">Customers don't come back regularly</span>
+        </div>
+        <div class="opt" onclick="selectOpt(this)">
+          <div class="opt-radio"></div>
+          <span class="opt-text">No way to identify or reward regulars</span>
+        </div>
+        <div class="opt" onclick="selectOpt(this)">
+          <div class="opt-radio"></div>
+          <span class="opt-text">Too busy — can't manage manual systems</span>
+        </div>
+        <div class="opt" onclick="selectOpt(this)">
+          <div class="opt-radio"></div>
+          <span class="opt-text">Not sure — haven't tracked it</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q6: Interested -->
+    <div class="question-block" data-q="6" data-type="text">
+      <div class="q-label">Interested in being an early partner?</div>
+      <div class="q-sub">Drop your name and a number/email — we'll reach out with details. No spam, promise.</div>
+      <textarea class="text-field" rows="3" id="q6" placeholder="e.g. Rahul — 9876543210 / rahul@cafebeam.in"></textarea>
+    </div>
+
+  </div><!-- /form-section -->
+
+  <!-- NAV -->
+  <div class="nav" id="nav-section">
+    <button class="btn-back" id="btn-back" onclick="goBack()" style="display:none">← Back</button>
+    <button class="btn-next" id="btn-next" onclick="goNext()">Continue →</button>
+  </div>
+
+  <!-- THANK YOU -->
+  <div id="thankyou">
+    <div class="ty-icon">☕</div>
+    <h2>You're awesome!</h2>
+    <p>Thanks for taking the time. The JAM Visuals team will review your response and get back to you soon with next steps.</p>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <span>© 2025 JAM Visuals</span>
+    <span>Survey is <span style="color:#4caf81">confidential</span></span>
+  </div>
+
+</div>
+
+<script>
+  const totalQ = 6;
+  let current = 1;
+
+  function getBlock(n) {
+    return document.querySelector(`.question-block[data-q="${n}"]`);
+  }
+
+  function updateProgress() {
+    const pct = ((current - 1) / totalQ) * 100;
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('step-label').textContent = `Question ${current} of ${totalQ}`;
+    document.getElementById('btn-back').style.display = current > 1 ? 'block' : 'none';
+    document.getElementById('btn-next').textContent = current === totalQ ? 'Submit ✓' : 'Continue →';
+  }
+
+  function isAnswered() {
+    const block = getBlock(current);
+    const type = block.dataset.type;
+    if (type === 'text') {
+      const ta = block.querySelector('textarea');
+      return ta && ta.value.trim().length > 0;
+    }
+    if (type === 'single') {
+      return block.querySelector('.opt.selected') !== null;
+    }
+    if (type === 'multi') {
+      return block.querySelectorAll('.opt.selected').length > 0;
+    }
+    return true;
+  }
+
+  function selectOpt(el) {
+    const parent = el.closest('.options');
+    parent.querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    document.getElementById('btn-next').disabled = false;
+  }
+
+  function selectMulti(el) {
+    el.classList.toggle('selected');
+    document.getElementById('btn-next').disabled = !isAnswered();
+  }
+
+  function goNext() {
+    if (!isAnswered()) return;
+    if (current === totalQ) {
+      // Submit
+      document.getElementById('form-section').style.display = 'none';
+      document.getElementById('nav-section').style.display = 'none';
+      document.getElementById('intro-section').style.display = 'none';
+      document.querySelector('.progress-bar').style.display = 'none';
+      document.getElementById('step-label').style.display = 'none';
+      document.getElementById('thankyou').style.display = 'block';
+      document.getElementById('progress-fill').style.width = '100%';
+      return;
+    }
+    getBlock(current).classList.remove('active');
+    current++;
+    getBlock(current).classList.add('active');
+    updateProgress();
+    document.getElementById('btn-next').disabled = !isAnswered();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function goBack() {
+    if (current <= 1) return;
+    getBlock(current).classList.remove('active');
+    current--;
+    getBlock(current).classList.add('active');
+    updateProgress();
+    document.getElementById('btn-next').disabled = !isAnswered();
+  }
+
+  // Enable/disable next based on text input
+  document.querySelectorAll('textarea').forEach(ta => {
+    ta.addEventListener('input', () => {
+      document.getElementById('btn-next').disabled = !isAnswered();
+    });
+  });
+
+  // Init
+  updateProgress();
+  document.getElementById('btn-next').disabled = !isAnswered();
+</script>
+</body>
+</html>
