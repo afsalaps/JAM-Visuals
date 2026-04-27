@@ -7,488 +7,210 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --bg: #0c0c0e;
-    --surface: #141416;
-    --border: #232328;
-    --accent: #f5c842;
-    --accent2: #e8874a;
-    --text: #f0ede8;
-    --muted: #7a7a85;
-    --selected-bg: #1e1c14;
+    --bg: #0c0c0e; --surface: #141416; --border: #232328;
+    --accent: #f5c842; --accent2: #e8874a; --text: #f0ede8;
+    --muted: #7a7a85; --selected-bg: #1e1c14;
   }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    min-height: 100vh;
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    padding: 40px 20px 80px;
-  }
-
-  .wrapper {
-    width: 100%;
-    max-width: 580px;
-  }
-
-  /* ── HEADER ── */
-  .header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 48px;
-  }
-  .logo-mark {
-    width: 36px; height: 36px;
-    background: var(--accent);
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 14px;
-    color: #0c0c0e;
-    letter-spacing: -0.5px;
-  }
-  .brand {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 15px;
-    color: var(--text);
-    letter-spacing: 0.5px;
-  }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; padding: 40px 20px 80px; }
+  .wrapper { width: 100%; max-width: 580px; }
+  .header { display: flex; align-items: center; gap: 10px; margin-bottom: 48px; }
+  .logo-mark { width: 36px; height: 36px; background: var(--accent); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 14px; color: #0c0c0e; }
+  .brand { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; color: var(--text); }
   .brand span { color: var(--muted); font-weight: 400; }
-
-  /* ── INTRO ── */
   .intro { margin-bottom: 44px; }
-  .intro-tag {
-    display: inline-block;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 14px;
-  }
-  .intro h1 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(28px, 6vw, 38px);
-    font-weight: 800;
-    line-height: 1.1;
-    margin-bottom: 14px;
-  }
-  .intro p {
-    font-size: 15px;
-    line-height: 1.7;
-    color: #a8a8b3;
-    max-width: 480px;
-  }
+  .intro-tag { display: inline-block; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
+  .intro h1 { font-family: 'Syne', sans-serif; font-size: clamp(28px,6vw,38px); font-weight: 800; line-height: 1.1; margin-bottom: 14px; }
+  .intro p { font-size: 15px; line-height: 1.7; color: #a8a8b3; max-width: 480px; }
   .intro p strong { color: var(--text); font-weight: 500; }
-
-  /* ── PROGRESS ── */
-  .progress-bar {
-    height: 2px;
-    background: var(--border);
-    border-radius: 2px;
-    margin-bottom: 40px;
-    overflow: hidden;
-  }
-  .progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--accent), var(--accent2));
-    border-radius: 2px;
-    transition: width 0.4s cubic-bezier(.4,0,.2,1);
-    width: 0%;
-  }
-  .step-label {
-    font-size: 12px;
-    color: var(--muted);
-    margin-bottom: 10px;
-    letter-spacing: 0.5px;
-  }
-
-  /* ── QUESTION BLOCKS ── */
-  .question-block {
-    display: none;
-    animation: fadeSlide 0.35s ease;
-  }
+  .progress-bar { height: 2px; background: var(--border); border-radius: 2px; margin-bottom: 40px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 2px; transition: width 0.4s cubic-bezier(.4,0,.2,1); width: 0%; }
+  .step-label { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+  .question-block { display: none; animation: fadeSlide 0.35s ease; }
   .question-block.active { display: block; }
-  @keyframes fadeSlide {
-    from { opacity: 0; transform: translateY(12px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  .q-label {
-    font-family: 'Syne', sans-serif;
-    font-size: 21px;
-    font-weight: 700;
-    line-height: 1.35;
-    margin-bottom: 6px;
-  }
-  .q-sub {
-    font-size: 13px;
-    color: var(--muted);
-    margin-bottom: 24px;
-  }
-
-  /* ── OPTIONS ── */
+  @keyframes fadeSlide { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+  .q-label { font-family: 'Syne', sans-serif; font-size: 21px; font-weight: 700; line-height: 1.35; margin-bottom: 6px; }
+  .q-sub { font-size: 13px; color: var(--muted); margin-bottom: 24px; }
   .options { display: flex; flex-direction: column; gap: 10px; }
-  .opt {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 14px 18px;
-    background: var(--surface);
-    border: 1.5px solid var(--border);
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.2s;
-    user-select: none;
-  }
-  .opt:hover {
-    border-color: #3a3a46;
-    background: #191920;
-  }
-  .opt.selected {
-    border-color: var(--accent);
-    background: var(--selected-bg);
-  }
-  .opt-radio {
-    width: 18px; height: 18px;
-    border-radius: 50%;
-    border: 1.5px solid var(--border);
-    flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.2s;
-  }
-  .opt.selected .opt-radio {
-    border-color: var(--accent);
-    background: var(--accent);
-  }
-  .opt.selected .opt-radio::after {
-    content: '';
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    background: #0c0c0e;
-  }
-  .opt-text { font-size: 15px; font-weight: 400; }
-  .opt.selected .opt-text { color: var(--text); }
-
-  /* MULTI SELECT */
-  .opt .opt-check {
-    width: 18px; height: 18px;
-    border-radius: 5px;
-    border: 1.5px solid var(--border);
-    flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.2s;
-  }
-  .opt.selected .opt-check {
-    border-color: var(--accent);
-    background: var(--accent);
-  }
-  .opt.selected .opt-check::after {
-    content: '✓';
-    font-size: 11px;
-    color: #0c0c0e;
-    font-weight: 700;
-  }
-
-  /* ── TEXT INPUT ── */
-  .text-field {
-    width: 100%;
-    padding: 14px 18px;
-    background: var(--surface);
-    border: 1.5px solid var(--border);
-    border-radius: 12px;
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    outline: none;
-    transition: border-color 0.2s;
-    resize: none;
-  }
+  .opt { display: flex; align-items: center; gap: 14px; padding: 14px 18px; background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; cursor: pointer; transition: all 0.2s; user-select: none; }
+  .opt:hover { border-color: #3a3a46; background: #191920; }
+  .opt.selected { border-color: var(--accent); background: var(--selected-bg); }
+  .opt-radio { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--border); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+  .opt.selected .opt-radio { border-color: var(--accent); background: var(--accent); }
+  .opt.selected .opt-radio::after { content: ''; width: 7px; height: 7px; border-radius: 50%; background: #0c0c0e; }
+  .opt-text { font-size: 15px; }
+  .opt-check { width: 18px; height: 18px; border-radius: 5px; border: 1.5px solid var(--border); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+  .opt.selected .opt-check { border-color: var(--accent); background: var(--accent); }
+  .opt.selected .opt-check::after { content: '✓'; font-size: 11px; color: #0c0c0e; font-weight: 700; }
+  .text-field { width: 100%; padding: 14px 18px; background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px; outline: none; transition: border-color 0.2s; resize: none; }
   .text-field:focus { border-color: var(--accent); }
   .text-field::placeholder { color: var(--muted); }
-
-  /* ── NAV BUTTONS ── */
-  .nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 32px;
-    gap: 12px;
-  }
-  .btn-back {
-    background: none;
-    border: 1.5px solid var(--border);
-    color: var(--muted);
-    padding: 12px 22px;
-    border-radius: 10px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
+  .nav { display: flex; justify-content: space-between; align-items: center; margin-top: 32px; gap: 12px; }
+  .btn-back { background: none; border: 1.5px solid var(--border); color: var(--muted); padding: 12px 22px; border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 14px; cursor: pointer; transition: all 0.2s; }
   .btn-back:hover { border-color: #3a3a46; color: var(--text); }
-  .btn-next {
-    background: var(--accent);
-    border: none;
-    color: #0c0c0e;
-    padding: 13px 28px;
-    border-radius: 10px;
-    font-family: 'Syne', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    letter-spacing: 0.3px;
-    transition: all 0.2s;
-    margin-left: auto;
-  }
+  .btn-next { background: var(--accent); border: none; color: #0c0c0e; padding: 13px 28px; border-radius: 10px; font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s; margin-left: auto; }
   .btn-next:hover { background: #ffd556; transform: translateY(-1px); }
   .btn-next:disabled { opacity: 0.35; pointer-events: none; }
 
-  /* ── THANK YOU ── */
-  #thankyou {
-    display: none;
-    text-align: center;
-    padding: 60px 0;
-    animation: fadeSlide 0.5s ease;
-  }
-  .ty-icon {
-    width: 64px; height: 64px;
-    border-radius: 50%;
-    background: #1c1a0f;
-    border: 2px solid var(--accent);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 28px;
-    margin: 0 auto 24px;
-  }
-  #thankyou h2 {
-    font-family: 'Syne', sans-serif;
-    font-size: 30px;
-    font-weight: 800;
-    margin-bottom: 10px;
-  }
-  #thankyou p { color: var(--muted); font-size: 15px; line-height: 1.7; max-width: 380px; margin: 0 auto; }
-
-  /* ── FOOTER ── */
-  .footer {
-    margin-top: 56px;
-    padding-top: 20px;
-    border-top: 1px solid var(--border);
-    font-size: 12px;
-    color: var(--muted);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .footer a { color: var(--accent); text-decoration: none; }
-
-  @media (max-width: 480px) {
-    body { padding: 28px 16px 60px; }
-    .intro h1 { font-size: 26px; }
-    .q-label { font-size: 18px; }
-    .btn-back, .btn-next { padding: 11px 18px; }
-  }
+  #thankyou { display: none; text-align: center; padding: 50px 0; animation: fadeSlide 0.5s ease; }
+  .ty-icon { width: 72px; height: 72px; border-radius: 50%; background: #1c1a0f; border: 2px solid var(--accent); display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 22px; }
+  #thankyou h2 { font-family: 'Syne', sans-serif; font-size: 30px; font-weight: 800; margin-bottom: 10px; }
+  #thankyou > p { color: var(--muted); font-size: 14px; line-height: 1.7; max-width: 360px; margin: 0 auto 28px; }
+  .delivery-status { display: flex; flex-direction: column; gap: 10px; max-width: 340px; margin: 0 auto 24px; }
+  .status-row { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-radius: 10px; background: var(--surface); border: 1.5px solid var(--border); font-size: 13px; }
+  .status-row.ok { border-color: #2a5a3a; background: #0d1f15; }
+  .status-row.pending { border-color: #4a4020; background: #1a1608; }
+  .status-icon { font-size: 16px; flex-shrink: 0; }
+  .status-text { color: var(--muted); }
+  .status-row.ok .status-text { color: #4caf81; }
+  .status-row.pending .status-text { color: #c9a836; }
+  .wa-wrap { max-width: 340px; margin: 0 auto; }
+  .wa-btn { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 16px 24px; border-radius: 14px; text-decoration: none; font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; background: #25D366; color: #fff; transition: all 0.2s; box-shadow: 0 4px 20px rgba(37,211,102,0.25); }
+  .wa-btn:hover { background: #1fbe5b; transform: translateY(-2px); }
+  .wa-note { font-size: 12px; color: var(--muted); margin-top: 12px; line-height: 1.6; }
+  .wa-icon { width: 22px; height: 22px; flex-shrink: 0; }
+  .footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted); display: flex; justify-content: space-between; }
+  @media(max-width:480px){ body{padding:28px 16px 60px;} .intro h1{font-size:26px;} .q-label{font-size:18px;} }
 </style>
 </head>
 <body>
 <div class="wrapper">
 
-  <!-- HEADER -->
   <div class="header">
     <div class="logo-mark">J</div>
     <div class="brand">JAM Visuals <span>/ Cafe Partner Survey</span></div>
   </div>
 
-  <!-- INTRO -->
   <div class="intro" id="intro-section">
     <div class="intro-tag">Takes 2 minutes ☕</div>
     <h1>Help us shape your<br/>loyalty experience.</h1>
     <p>We're building a <strong>simple reward points system</strong> for cafes — and your feedback decides how it works. Just 6 quick questions.</p>
   </div>
 
-  <!-- PROGRESS -->
-  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
     <span class="step-label" id="step-label">Question 1 of 6</span>
   </div>
-  <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+  <div class="progress-bar" id="prog-bar"><div class="progress-fill" id="progress-fill"></div></div>
 
-  <!-- FORM -->
   <div id="form-section">
 
-    <!-- Q1: Cafe Name -->
     <div class="question-block active" data-q="1" data-type="text">
       <div class="q-label">What's your cafe called?</div>
       <div class="q-sub">Just the name is enough.</div>
-      <textarea class="text-field" rows="2" id="q1" placeholder="e.g. Brew & Co, The Bean Spot…"></textarea>
+      <textarea class="text-field" rows="2" id="q1" placeholder="e.g. Brew &amp; Co, The Bean Spot…"></textarea>
     </div>
 
-    <!-- Q2: Current loyalty -->
     <div class="question-block" data-q="2" data-type="single">
       <div class="q-label">Do you currently have any loyalty or rewards system?</div>
       <div class="q-sub">Stamp cards count too.</div>
       <div class="options">
-        <div class="opt" onclick="selectOpt(this)">
-          <div class="opt-radio"></div>
-          <span class="opt-text">Yes — we have something running</span>
-        </div>
-        <div class="opt" onclick="selectOpt(this)">
-          <div class="opt-radio"></div>
-          <span class="opt-text">No — but we'd like one</span>
-        </div>
-        <div class="opt" onclick="selectOpt(this)">
-          <div class="opt-radio"></div>
-          <span class="opt-text">No — we haven't thought about it</span>
-        </div>
+        <div class="opt" onclick="selectOpt(this)"><div class="opt-radio"></div><span class="opt-text">Yes — we have something running</span></div>
+        <div class="opt" onclick="selectOpt(this)"><div class="opt-radio"></div><span class="opt-text">No — but we'd like one</span></div>
+        <div class="opt" onclick="selectOpt(this)"><div class="opt-radio"></div><span class="opt-text">No — we haven't thought about it</span></div>
       </div>
     </div>
 
-    <!-- Q3: Customers per day -->
     <div class="question-block" data-q="3" data-type="single">
       <div class="q-label">How many customers visit your cafe daily on average?</div>
       <div class="q-sub">A rough estimate is fine.</div>
       <div class="options">
-        <div class="opt" onclick="selectOpt(this)">
-          <div class="opt-radio"></div>
-          <span class="opt-text">Less than 50</span>
-        </div>
-        <div class="opt" onclick="selectOpt(this)">
-          <div class="opt-radio"></div>
-          <span class="opt-text">50 – 100</span>
-        </div>
-        <div class="opt" onclick="selectOpt(this)">
-          <div class="opt-radio"></div>
-          <span class="opt-text">100 – 200</span>
-        </div>
-        <div class="opt" onclick="selectOpt(this)">
-          <div class="opt-radio"></div>
-          <span class="opt-text">200+</span>
-        </div>
+        <div class="opt" onclick="selectOpt(this)"><div class="opt-radio"></div><span class="opt-text">Less than 50</span></div>
+        <div class="opt" onclick="selectOpt(this)"><div class="opt-radio"></div><span class="opt-text">50 – 100</span></div>
+        <div class="opt" onclick="selectOpt(this)"><div class="opt-radio"></div><span class="opt-text">100 – 200</span></div>
+        <div class="opt" onclick="selectOpt(this)"><div class="opt-radio"></div><span class="opt-text">200+</span></div>
       </div>
     </div>
 
-    <!-- Q4: What matters most -->
     <div class="question-block" data-q="4" data-type="multi">
       <div class="q-label">What features would matter most to you?</div>
       <div class="q-sub">Select all that apply.</div>
-      <div class="options multi">
-        <div class="opt" onclick="selectMulti(this)">
-          <div class="opt-check"></div>
-          <span class="opt-text">Customers earn points per purchase</span>
-        </div>
-        <div class="opt" onclick="selectMulti(this)">
-          <div class="opt-check"></div>
-          <span class="opt-text">Free item or discount after X visits</span>
-        </div>
-        <div class="opt" onclick="selectMulti(this)">
-          <div class="opt-check"></div>
-          <span class="opt-text">Works across multiple cafes (shared points)</span>
-        </div>
-        <div class="opt" onclick="selectMulti(this)">
-          <div class="opt-check"></div>
-          <span class="opt-text">Simple dashboard to track regulars</span>
-        </div>
-        <div class="opt" onclick="selectMulti(this)">
-          <div class="opt-check"></div>
-          <span class="opt-text">Customer gets notifications / offers</span>
-        </div>
+      <div class="options">
+        <div class="opt" onclick="selectMulti(this)"><div class="opt-check"></div><span class="opt-text">Customers earn points per purchase</span></div>
+        <div class="opt" onclick="selectMulti(this)"><div class="opt-check"></div><span class="opt-text">Free item or discount after X visits</span></div>
+        <div class="opt" onclick="selectMulti(this)"><div class="opt-check"></div><span class="opt-text">Works across multiple cafes (shared points)</span></div>
+        <div class="opt" onclick="selectMulti(this)"><div class="opt-check"></div><span class="opt-text">Simple dashboard to track regulars</span></div>
+        <div class="opt" onclick="selectMulti(this)"><div class="opt-check"></div><span class="opt-text">Customer gets notifications / offers</span></div>
       </div>
     </div>
 
-    <!-- Q5: Biggest challenge -->
     <div class="question-block" data-q="5" data-type="single">
       <div class="q-label">What's your biggest challenge with customer retention?</div>
       <div class="q-sub">Pick the one that hits closest.</div>
       <div class="options">
-        <div class="opt" onclick="selectOpt(this)">
-          <div class="opt-radio"></div>
-          <span class="opt-text">Customers don't come back regularly</span>
-        </div>
-        <div class="opt" onclick="selectOpt(this)">
-          <div class="opt-radio"></div>
-          <span class="opt-text">No way to identify or reward regulars</span>
-        </div>
-        <div class="opt" onclick="selectOpt(this)">
-          <div class="opt-radio"></div>
-          <span class="opt-text">Too busy — can't manage manual systems</span>
-        </div>
-        <div class="opt" onclick="selectOpt(this)">
-          <div class="opt-radio"></div>
-          <span class="opt-text">Not sure — haven't tracked it</span>
-        </div>
+        <div class="opt" onclick="selectOpt(this)"><div class="opt-radio"></div><span class="opt-text">Customers don't come back regularly</span></div>
+        <div class="opt" onclick="selectOpt(this)"><div class="opt-radio"></div><span class="opt-text">No way to identify or reward regulars</span></div>
+        <div class="opt" onclick="selectOpt(this)"><div class="opt-radio"></div><span class="opt-text">Too busy — can't manage manual systems</span></div>
+        <div class="opt" onclick="selectOpt(this)"><div class="opt-radio"></div><span class="opt-text">Not sure — haven't tracked it</span></div>
       </div>
     </div>
 
-    <!-- Q6: Interested -->
     <div class="question-block" data-q="6" data-type="text">
       <div class="q-label">Interested in being an early partner?</div>
-      <div class="q-sub">Drop your name and a number/email — we'll reach out with details. No spam, promise.</div>
+      <div class="q-sub">Drop your name and a number/email — we'll reach out. No spam, promise.</div>
       <textarea class="text-field" rows="3" id="q6" placeholder="e.g. Rahul — 9876543210 / rahul@cafebeam.in"></textarea>
     </div>
 
-  </div><!-- /form-section -->
+  </div>
 
-  <!-- NAV -->
   <div class="nav" id="nav-section">
     <button class="btn-back" id="btn-back" onclick="goBack()" style="display:none">← Back</button>
     <button class="btn-next" id="btn-next" onclick="goNext()">Continue →</button>
   </div>
 
-  <!-- THANK YOU -->
   <div id="thankyou">
     <div class="ty-icon">☕</div>
     <h2>You're awesome!</h2>
-    <p>Thanks for taking the time. The JAM Visuals team will review your response and get back to you soon with next steps.</p>
+    <p>Response recorded! Email sent to JAM Visuals. Tap below to also send via WhatsApp.</p>
+    <div class="delivery-status">
+      <div class="status-row ok">
+        <span class="status-icon">✅</span>
+        <span class="status-text">Email sent automatically to JAM Visuals</span>
+      </div>
+      <div class="status-row pending">
+        <span class="status-icon">💬</span>
+        <span class="status-text">Tap below to also send via WhatsApp</span>
+      </div>
+    </div>
+    <div class="wa-wrap">
+      <a id="wa-send-btn" href="#" target="_blank" class="wa-btn">
+        <svg class="wa-icon" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Send via WhatsApp
+      </a>
+      <p class="wa-note">WhatsApp opens → message ready → just tap Send ✓</p>
+    </div>
   </div>
 
-  <!-- FOOTER -->
   <div class="footer">
-    <span>© 2025 JAM Visuals</span>
+    <span>© 2026 JAM Visuals</span>
     <span>Survey is <span style="color:#4caf81">confidential</span></span>
   </div>
 
 </div>
-
 <script>
-  const totalQ = 6;
-  let current = 1;
+  var totalQ = 6;
+  var current = 1;
 
-  function getBlock(n) {
-    return document.querySelector(`.question-block[data-q="${n}"]`);
-  }
+  function getBlock(n) { return document.querySelector('.question-block[data-q="' + n + '"]'); }
 
   function updateProgress() {
-    const pct = ((current - 1) / totalQ) * 100;
+    var pct = ((current - 1) / totalQ) * 100;
     document.getElementById('progress-fill').style.width = pct + '%';
-    document.getElementById('step-label').textContent = `Question ${current} of ${totalQ}`;
+    document.getElementById('step-label').textContent = 'Question ' + current + ' of ' + totalQ;
     document.getElementById('btn-back').style.display = current > 1 ? 'block' : 'none';
     document.getElementById('btn-next').textContent = current === totalQ ? 'Submit ✓' : 'Continue →';
   }
 
   function isAnswered() {
-    const block = getBlock(current);
-    const type = block.dataset.type;
-    if (type === 'text') {
-      const ta = block.querySelector('textarea');
-      return ta && ta.value.trim().length > 0;
-    }
-    if (type === 'single') {
-      return block.querySelector('.opt.selected') !== null;
-    }
-    if (type === 'multi') {
-      return block.querySelectorAll('.opt.selected').length > 0;
-    }
+    var block = getBlock(current);
+    var type = block.dataset.type;
+    if (type === 'text') return block.querySelector('textarea').value.trim().length > 0;
+    if (type === 'single') return block.querySelector('.opt.selected') !== null;
+    if (type === 'multi') return block.querySelectorAll('.opt.selected').length > 0;
     return true;
   }
 
   function selectOpt(el) {
-    const parent = el.closest('.options');
-    parent.querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
+    el.closest('.options').querySelectorAll('.opt').forEach(function(o){ o.classList.remove('selected'); });
     el.classList.add('selected');
     document.getElementById('btn-next').disabled = false;
   }
@@ -498,19 +220,61 @@
     document.getElementById('btn-next').disabled = !isAnswered();
   }
 
+  function getSelected(q) {
+    return Array.from(getBlock(q).querySelectorAll('.opt.selected'))
+      .map(function(o){ return o.querySelector('.opt-text').textContent.trim(); })
+      .join(', ') || 'Not answered';
+  }
+
   function goNext() {
     if (!isAnswered()) return;
+
     if (current === totalQ) {
-      // Submit
-      document.getElementById('form-section').style.display = 'none';
-      document.getElementById('nav-section').style.display = 'none';
+      var cafeName = document.getElementById('q1').value.trim() || 'Not provided';
+      var contact  = document.getElementById('q6').value.trim() || 'Not provided';
+
+      var emailBody =
+        'Cafe Name: '         + cafeName       + '\n' +
+        'Loyalty System: '    + getSelected(2) + '\n' +
+        'Daily Customers: '   + getSelected(3) + '\n' +
+        'Features Wanted: '   + getSelected(4) + '\n' +
+        'Biggest Challenge: ' + getSelected(5) + '\n' +
+        'Contact: '           + contact;
+
+      var waMsg =
+        '\u2615 *JAM Visuals \u2013 Cafe Survey*\n\n' +
+        '*Cafe Name:* '         + cafeName       + '\n' +
+        '*Loyalty System:* '    + getSelected(2) + '\n' +
+        '*Daily Customers:* '   + getSelected(3) + '\n' +
+        '*Features Wanted:* '   + getSelected(4) + '\n' +
+        '*Biggest Challenge:* ' + getSelected(5) + '\n' +
+        '*Contact:* '           + contact;
+
+      // ── Email via Web3Forms (automatic) ──
+      fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          access_key: 'ad6aa1ad-9f3b-4f9c-8df8-9b72e1f41e0c',
+          subject: '\u2615 New Cafe Survey: ' + cafeName,
+          from_name: 'JAM Visuals Survey',
+          message: emailBody
+        })
+      }).catch(function(){});
+
+      // ── WhatsApp link ──
+      document.getElementById('wa-send-btn').href =
+        'https://wa.me/96874154067?text=' + encodeURIComponent(waMsg);
+
+      document.getElementById('form-section').style.display  = 'none';
+      document.getElementById('nav-section').style.display   = 'none';
       document.getElementById('intro-section').style.display = 'none';
-      document.querySelector('.progress-bar').style.display = 'none';
-      document.getElementById('step-label').style.display = 'none';
-      document.getElementById('thankyou').style.display = 'block';
-      document.getElementById('progress-fill').style.width = '100%';
+      document.getElementById('prog-bar').style.display      = 'none';
+      document.getElementById('step-label').style.display    = 'none';
+      document.getElementById('thankyou').style.display      = 'block';
       return;
     }
+
     getBlock(current).classList.remove('active');
     current++;
     getBlock(current).classList.add('active');
@@ -528,14 +292,12 @@
     document.getElementById('btn-next').disabled = !isAnswered();
   }
 
-  // Enable/disable next based on text input
-  document.querySelectorAll('textarea').forEach(ta => {
-    ta.addEventListener('input', () => {
+  document.querySelectorAll('textarea').forEach(function(ta) {
+    ta.addEventListener('input', function() {
       document.getElementById('btn-next').disabled = !isAnswered();
     });
   });
 
-  // Init
   updateProgress();
   document.getElementById('btn-next').disabled = !isAnswered();
 </script>
